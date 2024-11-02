@@ -9,16 +9,18 @@ LLM agent deployment example - set up your .env install and login through gcloud
   - [ ] AWS
   - [ ] Azure
   - [ ] DigitalOcean
-- [ ] Agent state DB persistence 
+- [ ] Agent state DB persistence
 - [ ] Tracing and APMs
 - [ ] Logging conversations
+- [x] Minimal CI
+- [x] Secret detection
+- [ ] CD
+- [ ] Streaming responses
 
 ## Project structure
 
 
 ## Key components
-
-
 
 
 ## References:
