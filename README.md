@@ -18,9 +18,23 @@ LLM agent deployment example - set up your .env install and login through gcloud
 - [ ] Streaming responses
 
 ## Project structure
+Folders:
 
+**.github**: Actions, includes CI and secret detection
 
-## Key components
+**llm_agent**: Agent and UI code
+
+**tests**: Unit tests
+
+Files:
+
+**.env**: env file with LLM API KEY, use .env.example as an example
+
+**deploy.sh**: Deploy to Cloud Run
+
+**Dockerfile**: Dockerfile to build the app
+
+**run.sh**: use `bash run.sh prod` to run the app locally
 
 
 ## References:
