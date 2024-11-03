@@ -50,9 +50,9 @@ class Refreshables:
                     avatar=avatar,
                     sent=message.type == "human",
                 )
-            ui.spinner(type="dots").bind_visibility(page_data, "processing")
         else:
             ui.label("No messages yet").classes("mx-auto my-36")
+        ui.spinner(type="dots").bind_visibility(page_data, "processing")
         await ui.run_javascript("window.scrollTo(0, document.body.scrollHeight)")
 
 
