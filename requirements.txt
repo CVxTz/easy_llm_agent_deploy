@@ -14,3 +14,4 @@ matplotlib~=3.9.2
 langchain_community==0.3.4
 wikipedia==1.4.0
 langchain-fireworks==0.2.5
+newrelic==10.2.0

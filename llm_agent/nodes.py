@@ -5,12 +5,14 @@ from langgraph.prebuilt import ToolNode
 
 from llm_agent.clients import client_large
 from llm_agent.state import OverallState
+import newrelic.agent
 
 wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
 
 tools = [wikipedia]
 
 
+@newrelic.agent.function_trace()
 def query_llm(state: OverallState) -> dict:
     local_client = client_large.bind_tools(tools)
     result = local_client.invoke(
