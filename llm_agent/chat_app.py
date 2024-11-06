@@ -5,7 +5,7 @@ from typing import Optional
 from fastapi import FastAPI, Request
 from langchain_core.messages import AnyMessage, HumanMessage
 from langgraph.graph.graph import CompiledGraph
-from nicegui import run, ui
+from nicegui import run, ui, Client
 
 from llm_agent.state import OverallState
 
@@ -69,7 +69,8 @@ async def handle_enter(page_data, agent, config, refreshables) -> None:
         refreshables.chat_messages.refresh(page_data=page_data)
 
 
-async def chat_page(request: Request):
+async def chat_page(request: Request, client: Client):
+    await client.connected()
     agent: CompiledGraph = request.state.agent
     config = {"configurable": {"thread_id": request.app.storage.browser["id"]}}
     messages: list[AnyMessage] = agent.get_state(config).values.get("messages", [])
