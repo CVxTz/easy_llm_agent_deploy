@@ -61,13 +61,12 @@ async def handle_enter(page_data, agent, config, refreshables) -> None:
         message = HumanMessage(content=page_data.query[:1000])
         page_data.reset()
         page_data.processing = True
+        refreshables.chat_messages.refresh(page_data=page_data)
         state = OverallState(messages=[message])
-        # state_dict = agent.invoke(state, config)
         state_dict = await run.io_bound(agent.invoke, state, config)
         page_data.messages = state_dict["messages"]
         page_data.processing = False
         refreshables.chat_messages.refresh(page_data=page_data)
-
 
 async def chat_page(request: Request, client: Client):
     await client.connected()
