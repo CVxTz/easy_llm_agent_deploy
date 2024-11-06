@@ -1,3 +1,4 @@
+import newrelic.agent
 from langchain_community.tools import WikipediaQueryRun
 from langchain_community.utilities import WikipediaAPIWrapper
 from langchain_core.messages import SystemMessage
@@ -5,7 +6,6 @@ from langgraph.prebuilt import ToolNode
 
 from llm_agent.clients import client_large
 from llm_agent.state import OverallState
-import newrelic.agent
 
 wikipedia = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
 

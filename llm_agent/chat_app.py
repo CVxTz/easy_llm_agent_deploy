@@ -2,12 +2,14 @@
 import os
 from typing import Optional
 
+import newrelic.agent
 from fastapi import FastAPI, Request
 from langchain_core.messages import AnyMessage, HumanMessage
 from langgraph.graph.graph import CompiledGraph
-from nicegui import run, ui
-import newrelic.agent
+from nicegui import Client, run, ui
+
 from llm_agent.state import OverallState
+
 
 @newrelic.agent.function_trace()
 def message_to_content(message: AnyMessage):
@@ -56,6 +58,7 @@ class Refreshables:
         ui.spinner(type="dots").bind_visibility(page_data, "processing")
         await ui.run_javascript("window.scrollTo(0, document.body.scrollHeight)")
 
+
 @newrelic.agent.function_trace()
 async def handle_enter(page_data, agent, config, refreshables) -> None:
     if page_data.query:
@@ -69,8 +72,10 @@ async def handle_enter(page_data, agent, config, refreshables) -> None:
         page_data.processing = False
         refreshables.chat_messages.refresh(page_data=page_data)
 
+
 @newrelic.agent.web_transaction()
-async def chat_page(request: Request):
+async def chat_page(request: Request, client: Client):
+    await client.connected()
     agent: CompiledGraph = request.state.agent
     config = {"configurable": {"thread_id": request.app.storage.browser["id"]}}
     messages: list[AnyMessage] = agent.get_state(config).values.get("messages", [])
