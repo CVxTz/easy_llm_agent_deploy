@@ -53,7 +53,7 @@ class Refreshables:
         else:
             ui.label("No messages yet").classes("mx-auto my-36")
         ui.spinner(type="dots").bind_visibility(page_data, "processing")
-        await ui.run_javascript("window.scrollTo(0, document.body.scrollHeight)")
+        await ui.run_javascript("window.scrollTo(0, document.body.scrollHeight)", timeout=20)
 
 
 async def handle_enter(page_data, agent, config, refreshables) -> None:
@@ -69,7 +69,7 @@ async def handle_enter(page_data, agent, config, refreshables) -> None:
         refreshables.chat_messages.refresh(page_data=page_data)
 
 async def chat_page(request: Request, client: Client):
-    await client.connected()
+    await client.connected(timeout=20)
     agent: CompiledGraph = request.state.agent
     config = {"configurable": {"thread_id": request.app.storage.browser["id"]}}
     messages: list[AnyMessage] = agent.get_state(config).values.get("messages", [])
@@ -109,7 +109,7 @@ async def chat_page(request: Request, client: Client):
 
 
 def init(fastapi_app: FastAPI) -> None:
-    ui.page("/", title="LLM Agent", response_timeout=10)(chat_page)
+    ui.page("/", title="LLM Agent", response_timeout=20)(chat_page)
 
     ui.run_with(
         fastapi_app,
